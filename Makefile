@@ -1,6 +1,9 @@
+# Get the current Git version
+APP_VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo 'unknown')
+
 # Build the application
 build:
-	docker-compose build
+	docker-compose build --build-arg APP_VERSION=$(APP_VERSION)
 
 # Start the application
 up:
