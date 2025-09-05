@@ -5,6 +5,18 @@ APP_VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo 
 build:
 	docker-compose build --build-arg APP_VERSION=$(APP_VERSION)
 
+# Build and deploy to GCP
+build-in-gcp:
+	@GIT_VERSION=$$(git describe --tags --always --dirty) && \
+	echo "Deploying version: $$GIT_VERSION" && \
+	gcloud run deploy budget-buddy \
+	  --source . \
+	  --platform managed \
+	  --region us-east1 \
+	  --project sinuous-concept-471202-t7 \
+	  --allow-unauthenticated \
+	  --set-env-vars="APP_VERSION=$$GIT_VERSION"
+
 # Start the application
 up:
 	docker-compose up -d
