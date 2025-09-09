@@ -1,8 +1,13 @@
 import React, { useState, FormEvent } from 'react';
 import { TransactionFormProps } from '../../types';
 
-export const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit, isLoading = false }) => {
-  const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
+export const TransactionForm: React.FC<TransactionFormProps> = ({
+  onSubmit,
+  isLoading = false,
+}) => {
+  const [date, setDate] = useState<string>(
+    new Date().toISOString().split('T')[0]
+  );
   const [amount, setAmount] = useState<string>('');
   const [type, setType] = useState<string>('');
 
@@ -22,7 +27,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit, isLo
       await onSubmit({
         date,
         amount: numAmount,
-        type: type.trim() || undefined
+        type: type.trim() || undefined,
       });
 
       // Reset form only on success
@@ -41,7 +46,9 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit, isLo
         <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-md-3">
-              <label htmlFor="date" className="form-label">Date</label>
+              <label htmlFor="date" className="form-label">
+                Date
+              </label>
               <input
                 type="date"
                 id="date"
@@ -53,7 +60,9 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit, isLo
               />
             </div>
             <div className="col-md-3">
-              <label htmlFor="amount" className="form-label">Amount (USD)</label>
+              <label htmlFor="amount" className="form-label">
+                Amount (USD)
+              </label>
               <input
                 type="number"
                 id="amount"
@@ -67,7 +76,9 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit, isLo
               />
             </div>
             <div className="col-md-4">
-              <label htmlFor="type" className="form-label">Type (Optional)</label>
+              <label htmlFor="type" className="form-label">
+                Type (Optional)
+              </label>
               <input
                 type="text"
                 id="type"
@@ -80,7 +91,11 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit, isLo
             </div>
             <div className="col-md-2">
               <br />
-              <button type="submit" className="btn btn-primary mt-2 w-100" disabled={isLoading}>
+              <button
+                type="submit"
+                className="btn btn-primary mt-2 w-100"
+                disabled={isLoading}
+              >
                 {isLoading ? 'Adding...' : 'Add'}
               </button>
             </div>

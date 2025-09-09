@@ -4,7 +4,7 @@ import { useTransactions } from './useTransactions';
 export const useAppState = () => {
   const auth = useAuth();
   const transactions = useTransactions(auth.loggedIn);
-  
+
   return {
     auth,
     transactions,
@@ -17,6 +17,6 @@ export const useAppState = () => {
     clearSuccessMessage: () => {
       auth.clearSuccessMessage();
       transactions.clearSuccessMessage();
-    }
+    },
   };
 };

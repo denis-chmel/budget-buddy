@@ -25,44 +25,47 @@ export function useAuth() {
     }
   }, [error]);
 
-  const handleLogin = useCallback(async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
+  const handleLogin = useCallback(
+    async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+      e.preventDefault();
+      setIsLoading(true);
+      setError('');
 
-    const formData = new FormData(e.currentTarget);
-    const usernameValue = formData.get('username') as string;
-    const password = formData.get('password') as string;
+      const formData = new FormData(e.currentTarget);
+      const usernameValue = formData.get('username') as string;
+      const password = formData.get('password') as string;
 
-    // Basic validation
-    if (!usernameValue?.trim() || !password?.trim()) {
-      setError('Username and password are required');
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const data = await authApi.login(usernameValue.trim(), password);
-
-      setLoggedIn(true);
-      setUsername(data.username);
-      setAccessToken(data.access_token);
-
-      if (data.message) {
-        setSuccessMessage(data.message);
+      // Basic validation
+      if (!usernameValue?.trim() || !password?.trim()) {
+        setError('Username and password are required');
+        setIsLoading(false);
+        return;
       }
-    } catch (error) {
-      console.error('Login error:', error);
 
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Login failed. Please try again.');
+      try {
+        const data = await authApi.login(usernameValue.trim(), password);
+
+        setLoggedIn(true);
+        setUsername(data.username);
+        setAccessToken(data.access_token);
+
+        if (data.message) {
+          setSuccessMessage(data.message);
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('Login failed. Please try again.');
+        }
+      } finally {
+        setIsLoading(false);
       }
-    } finally {
-      setIsLoading(false);
-    }
-  }, [setLoggedIn, setUsername, setAccessToken]);
+    },
+    [setLoggedIn, setUsername, setAccessToken]
+  );
 
   const handleLogout = useCallback((): void => {
     setLoggedIn(false);

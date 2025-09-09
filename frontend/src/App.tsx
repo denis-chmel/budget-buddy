@@ -1,19 +1,30 @@
-import React from "react";
-import "./App.scss";
-import { Alert } from "./components/common/Alert";
-import { Header } from "./components/auth/Header";
-import { LoginForm } from "./components/auth/LoginForm";
-import { TransactionForm } from "./components/transactions/TransactionForm";
-import { TransactionList } from "./components/transactions/TransactionList";
-import { useAppState } from "./hooks/useAppState";
+import React from 'react';
+import './App.scss';
+import { Alert } from './components/common/Alert';
+import { Header } from './components/auth/Header';
+import { LoginForm } from './components/auth/LoginForm';
+import { TransactionForm } from './components/transactions/TransactionForm';
+import { TransactionList } from './components/transactions/TransactionList';
+import { useAppState } from './hooks/useAppState';
 
 const App: React.FC = () => {
-  const { auth, transactions, error, successMessage, clearError, clearSuccessMessage } = useAppState();
+  const {
+    auth,
+    transactions,
+    error,
+    successMessage,
+    clearError,
+    clearSuccessMessage,
+  } = useAppState();
 
   if (auth.loggedIn) {
     return (
       <div className="main-container">
-        <Header username={auth.username} onLogout={auth.handleLogout} transactions={transactions.transactions} />
+        <Header
+          username={auth.username}
+          onLogout={auth.handleLogout}
+          transactions={transactions.transactions}
+        />
 
         {successMessage && (
           <Alert
@@ -23,13 +34,7 @@ const App: React.FC = () => {
           />
         )}
 
-        {error && (
-          <Alert
-            message={error}
-            type="danger"
-            onClose={clearError}
-          />
-        )}
+        {error && <Alert message={error} type="danger" onClose={clearError} />}
 
         <TransactionForm
           onSubmit={transactions.addTransaction}
@@ -62,17 +67,10 @@ const App: React.FC = () => {
           <h1 className="card-title text-center mb-4">Budget Buddy</h1>
 
           {error && (
-            <Alert
-              message={error}
-              type="danger"
-              onClose={clearError}
-            />
+            <Alert message={error} type="danger" onClose={clearError} />
           )}
 
-          <LoginForm
-            onSubmit={auth.handleLogin}
-            isLoading={auth.isLoading}
-          />
+          <LoginForm onSubmit={auth.handleLogin} isLoading={auth.isLoading} />
         </div>
       </div>
     </div>

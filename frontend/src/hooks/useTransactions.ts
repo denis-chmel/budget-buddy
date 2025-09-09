@@ -37,31 +37,37 @@ export function useTransactions(loggedIn: boolean) {
     }
   }, []);
 
-  const addTransaction = useCallback(async (transactionData: Omit<Transaction, 'id'>): Promise<void> => {
-    setIsAdding(true);
-    setError('');
+  const addTransaction = useCallback(
+    async (transactionData: Omit<Transaction, 'id'>): Promise<void> => {
+      setIsAdding(true);
+      setError('');
 
-    try {
-      const newTransaction = await transactionsApi.createTransaction(transactionData);
-      setTransactions(prev => [newTransaction, ...prev]);
-      setSuccessMessage('Transaction added successfully!');
-    } catch (error) {
-      console.error('Add transaction error:', error);
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Failed to add transaction. Please try again.');
+      try {
+        const newTransaction =
+          await transactionsApi.createTransaction(transactionData);
+        setTransactions((prev) => [newTransaction, ...prev]);
+        setSuccessMessage('Transaction added successfully!');
+      } catch (error) {
+        console.error('Add transaction error:', error);
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('Failed to add transaction. Please try again.');
+        }
+        throw error;
+      } finally {
+        setIsAdding(false);
       }
-      throw error;
-    } finally {
-      setIsAdding(false);
-    }
-  }, []);
+    },
+    []
+  );
 
   const deleteTransaction = useCallback(async (id: string) => {
     try {
       await transactionsApi.deleteTransaction(id);
-      setTransactions(prev => prev.filter(transaction => transaction.id !== id));
+      setTransactions((prev) =>
+        prev.filter((transaction) => transaction.id !== id)
+      );
       setSuccessMessage('Transaction deleted successfully!');
     } catch (error) {
       console.error('Delete transaction error:', error);
@@ -86,6 +92,6 @@ export function useTransactions(loggedIn: boolean) {
     deleteTransaction,
     clearError,
     clearSuccessMessage,
-    refreshTransactions: loadTransactions
+    refreshTransactions: loadTransactions,
   };
 }

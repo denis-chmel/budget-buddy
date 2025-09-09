@@ -1,7 +1,10 @@
 import React from 'react';
 import { LoginFormProps } from '../../types';
 
-export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading }) => (
+export const LoginForm: React.FC<LoginFormProps> = ({
+  onSubmit,
+  isLoading,
+}) => (
   <form onSubmit={onSubmit}>
     <div className="mb-3">
       <input
@@ -23,7 +26,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading }) => 
         disabled={isLoading}
       />
     </div>
-    <button type="submit" className="btn btn-primary w-100" disabled={isLoading}>
+    <button
+      type="submit"
+      className="btn btn-primary w-100"
+      disabled={isLoading}
+    >
       {isLoading ? 'Logging in...' : 'Log In'}
     </button>
   </form>
