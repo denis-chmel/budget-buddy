@@ -56,9 +56,6 @@ export function useAuth() {
 
       if (error instanceof Error) {
         setError(error.message);
-      } else if (error && typeof error === 'object' && 'response' in error) {
-        const apiError = error as { response: { data: { detail: string } } };
-        setError(apiError.response?.data?.detail || 'Login failed');
       } else {
         setError('Login failed. Please try again.');
       }

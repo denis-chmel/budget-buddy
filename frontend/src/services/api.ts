@@ -16,7 +16,7 @@ const api = async (endpoint: string, options: RequestInit = {}) => {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      ...(token && { 'Authorization': `Bearer ${token.replace(/"/g, '')}` }),
+      ...(token && { 'Authorization': `Bearer ${token}` }),
       ...options.headers,
     },
   });
@@ -34,10 +34,6 @@ const authApi = {
     api('/login', { method: 'POST', body: JSON.stringify({ username, password }) })
 };
 
-const accountApi = {
-  getAccount: () => api('/account')
-};
-
 const transactionsApi = {
   getTransactions: (): Promise<Transaction[]> => api('/transactions'),
   createTransaction: (data: Omit<Transaction, 'id'>): Promise<Transaction> =>
@@ -46,4 +42,4 @@ const transactionsApi = {
     api(`/transactions/${id}`, { method: 'DELETE' })
 };
 
-export { authApi, accountApi, transactionsApi };
+export { authApi, transactionsApi };

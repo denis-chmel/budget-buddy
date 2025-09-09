@@ -41,6 +41,5 @@ export interface TransactionListProps {
 
 export interface LoginFormProps {
   onSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
-  error: string;
   isLoading: boolean;
 }
